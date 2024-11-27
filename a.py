@@ -13,7 +13,7 @@ def main(weights_path, output_dir, conf_thres):
 
     if torch.cuda.is_available():
         device = torch.device('cpu')
-
+    device = torch.device('cpu')
     transform = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
@@ -80,9 +80,12 @@ def main(weights_path, output_dir, conf_thres):
             #     output = next_model(input_tensor)  # 下一個模型的輸出
 
             # 可選：在框框上顯示結果
-            label = f"Class: {int(cls)}, Conf: {conf:.2f}"
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            emotion = ["angry","happy","relaxed","sad"]
+            emotion_color = {0:(255,0,0),1:(0,255,0),2:(0,0,255),3:(255,255,255)}
+            label = f"Class: {emotion[int(cls)]}, Conf: {conf:.2f}"
+            emotion_color = {0:(255,0,0),1:(0,255,0),2:(0,0,255),3:(255,255,255)}
+            cv2.rectangle(frame, (x1, y1), (x2, y2), emotion_color[int(cls)], 2)
+            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, emotion_color[int(cls)], 2)
             # cv2.putText(frame, predict, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             print(predict)
 
