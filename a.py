@@ -82,10 +82,12 @@ def main(weights_path, output_dir, conf_thres):
             # 可選：在框框上顯示結果
             emotion = ["angry","happy","relaxed","sad"]
             emotion_color = {0:(255,0,0),1:(0,255,0),2:(0,0,255),3:(255,255,255)}
-            label = f"Class: {emotion[int(cls)]}, Conf: {conf:.2f}"
+            _,indices = predict
+            result = int(indices[0])
+            label = f"Class: {emotion[result]}, Conf: {conf:.2f}"
             emotion_color = {0:(255,0,0),1:(0,255,0),2:(0,0,255),3:(255,255,255)}
-            cv2.rectangle(frame, (x1, y1), (x2, y2), emotion_color[int(cls)], 2)
-            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, emotion_color[int(cls)], 2)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), emotion_color[result], 2)
+            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, emotion_color[result], 2)
             # cv2.putText(frame, predict, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             print(predict)
 
